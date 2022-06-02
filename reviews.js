@@ -8,15 +8,16 @@ let index = 0;
 const length = document.getElementsByClassName('slider__dot').length;
 console.log(length);
 
+let translateValue;
 // Функция для управления слайдером по стрелочкам
 function swipeSlider(side) {
   // Проверяем какая именно стрелочка нажата и выполняем сдвиг, а также меняем значение активного кружочка
   if (side === 'left') {
     if (index === 0) {
-      translate = 761 * (length - 1) * (-1);
+      translate = translateValue * (length - 1) * (-1);
       index = (length - 1);
     } else {
-      translate += 761;
+      translate += translateValue;
       index--;
     }
   } else if (side === 'right') {
@@ -24,7 +25,7 @@ function swipeSlider(side) {
       translate = 0;
       index = 0;
     } else {
-      translate -= 761;
+      translate -= translateValue;
       index++;
     }
   }
@@ -38,3 +39,15 @@ function swipeSlider(side) {
   document.getElementsByClassName('slider__dot')[index]
     .classList.toggle('slider__dot-active');
 }
+
+function setTranslateValue() {
+  let width = globalThis.innerWidth;
+
+  if (width > 768) translateValue = 761
+  else if (width <= 768) translateValue = 340;
+
+  console.log(translateValue);
+}
+
+globalThis.addEventListener('resize', setTranslateValue);
+setTranslateValue();
